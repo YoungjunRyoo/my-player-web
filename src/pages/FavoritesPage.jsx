@@ -1,8 +1,8 @@
-function FavoritesPage(){
-    return(
-        <div>
-            <h1>Helloasdfasdfadfasdfas</h1>
-        </div>
-    );
+function FavoritesPage() {
+  return (
+    <div>
+      <h1>Helloasadfasdfas</h1>
+    </div>
+  );
 }
 export default FavoritesPage;

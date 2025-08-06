@@ -1,0 +1,18 @@
+.navbar{
+    background-color: black;
+    
+}
+.logo img{
+    height: 100px;
+    width: 100px;
+}
+
+.home-link{
+    color: white;
+    font-size: 20px;
+}
+
+.favorites-link{
+    color: white;
+    font-size: 20px;
+}

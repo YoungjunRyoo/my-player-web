@@ -1,7 +1,7 @@
 // src/components/StandingsSection.jsx
-import { useEffect, useState } from "react";
-import { getStandings } from "../services/mlbApi";
-import DivisionStandings from "./DivisionStandings";
+import { useEffect, useState } from 'react';
+import { getStandings, getTodayGame } from '../services/mlbApi';
+import DivisionStandings from './DivisionStandings';
 
 function StandingsSection() {
   const [divisions, setDivisions] = useState(null);
@@ -11,6 +11,7 @@ function StandingsSection() {
       const data = await getStandings(2025);
       setDivisions(data.records);
     }
+
     fetchData();
   }, []);
 

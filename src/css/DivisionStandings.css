@@ -1,0 +1,44 @@
+.division-container {
+    margin-bottom: 20px;
+    padding: 16px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+}
+
+.division-title {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.standings-header,
+.team-row {
+    font-weight: bold;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+    align-items: center;
+    padding: 6px 0;
+    font-size: 14px;
+}
+
+.standings-header {
+  border-bottom: 1px solid #ddd;
+}
+
+.team-row img {
+  width: 24px;
+  height: 24px;
+  margin-right: 1px;
+}
+
+.team-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.team-logo {
+  width: 10px;
+  height: 24px;
+  object-fit: contain;
+}

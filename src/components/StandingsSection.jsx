@@ -1,4 +1,4 @@
-// src/components/StandingsSection.jsx
+
 import { useEffect, useState } from 'react';
 import { getStandings, getTodayGame } from '../services/mlbApi';
 import DivisionStandings from './DivisionStandings';
@@ -19,7 +19,7 @@ function StandingsSection() {
 
   return (
     <section>
-      <h2>MLB Standings by Division (2025)</h2>
+      
       {divisions.map((division) => (
         <DivisionStandings key={division.division.id} division={division} />
       ))}

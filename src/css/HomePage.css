@@ -1,7 +1,7 @@
-
 .homepage {
-  padding: 20px;
+  /* padding: 20px; */
   background-color: #f8f9fa;
+  width: 100%;
 }
 
 .main-content {
@@ -22,8 +22,16 @@
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  padding: 20px;
+  padding: 15px 10px;
   min-height: 300px;
+}
+
+.middle-column > .search-text {
+  margin: 0;
+  font-size: 22px;
+  font-weight: bold;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 .right-column {

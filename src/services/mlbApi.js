@@ -34,13 +34,13 @@ export async function getTodayGame() {
   }
 }
 
-export async function getTodayGameByID(gamePK) {
+export async function getPlayer() {
   try {
-    const res = await fetch(`${BASE_URL}/game/${gamePK}/boxscore`);
+    const res = await fetch(`${BASE_URL}/sports/1/players`);
     if (!res.ok) throw new Error('Failed to fetch boxscore');
     return await res.json();
   } catch (error) {
-    console.error('Error fetching standings:', error);
+    console.error('Error fetching players:', error);
     return null;
   }
 }

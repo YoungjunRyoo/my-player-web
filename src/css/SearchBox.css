@@ -1,0 +1,24 @@
+.search {
+  width: 100%;
+  display: flex;
+  gap: 1rem;
+  box-sizing: border-box;
+  padding: 10px 0px;
+}
+
+.search-input {
+  flex: 1;
+  /* border: none; */
+  padding: 10px;
+  font-size: 18px;
+  /* background-color: white; */
+  color: black;
+  border-radius: 10px;
+  border-width: 1px;
+  border-color: rgb(205, 205, 205);
+}
+
+.Searched-Player {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+}

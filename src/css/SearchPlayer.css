@@ -1,0 +1,59 @@
+.playerInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 150px;
+  height: 220px;
+  border: 0.5px solid black;
+  border-radius: 15px;
+}
+
+.playerInfo:hover {
+  background-color: rgb(238, 238, 238);
+  cursor: pointer;
+  transform: translateY(-1px);
+}
+
+.playerInfo > .playerInfo-img {
+  margin: 20px 0 10px 0;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%; /* 원 모양 */
+  overflow: hidden; /* 원 밖의 이미지 자르기 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.img {
+  width: 100%;
+}
+
+.playerInfo > .player-name {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-weight: 650;
+  font-size: 15px;
+  margin: 0;
+}
+
+.follow-box {
+  margin-top: 15px;
+  background-color: #3d85c6;
+  width: 130px;
+  height: 35px;
+
+  display: flex;
+  justify-content: center; /* 가로 중앙 */
+  align-items: center; /* 세로 중앙 */
+
+  border-radius: 20px;
+}
+
+.follow-text {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-weight: bold;
+  color: white;
+  margin: 0;
+}

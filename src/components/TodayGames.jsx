@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ScoreBox from './ScoreBox';
-import { getTodayGame, getTodayGameByID } from '../services/mlbApi';
+import { getTodayGame } from '../services/mlbApi';
 import '../css/ScoreBox.css';
 
 const monthNames = [
@@ -30,7 +30,6 @@ function TodayGames() {
   useEffect(() => {
     async function fetchData() {
       const todayGame = await getTodayGame();
-      console.log(todayGame.dates[0].games);
       setTodayGames(todayGame.dates[0].games);
       setLoading(false);
     }

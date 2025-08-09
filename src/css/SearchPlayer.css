@@ -2,22 +2,16 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 150px;
-  height: 220px;
+  width: 140px;
+  height: 200px;
   border: 0.5px solid black;
   border-radius: 15px;
 }
 
-.playerInfo:hover {
-  background-color: rgb(238, 238, 238);
-  cursor: pointer;
-  transform: translateY(-1px);
-}
-
 .playerInfo > .playerInfo-img {
-  margin: 20px 0 10px 0;
-  width: 90px;
-  height: 90px;
+  margin: 15px 0 10px 0;
+  width: 80px;
+  height: 80px;
   border-radius: 50%; /* 원 모양 */
   overflow: hidden; /* 원 밖의 이미지 자르기 */
   display: flex;
@@ -27,6 +21,7 @@
 
 .img {
   width: 100%;
+  filter: brightness(0.9);
 }
 
 .playerInfo > .player-name {
@@ -40,7 +35,7 @@
 .follow-box {
   margin-top: 15px;
   background-color: #3d85c6;
-  width: 130px;
+  width: 120px;
   height: 35px;
 
   display: flex;
@@ -48,6 +43,10 @@
   align-items: center; /* 세로 중앙 */
 
   border-radius: 20px;
+}
+.follow-box:hover {
+  background-color: #3574ac;
+  cursor: pointer;
 }
 
 .follow-text {

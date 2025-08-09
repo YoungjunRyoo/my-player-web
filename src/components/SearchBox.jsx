@@ -6,39 +6,58 @@ import '../css/SearchBox.css';
 function SearchBox() {
   const [allPlayers, setAllPlayers] = useState([]);
   const [players, setPlayers] = useState([]);
-  const [searchInput, setSearchInput] = useState('');
+  const [tmpInput, setTmpInput] = useState('');
 
   useEffect(() => {
     async function fetchData() {
       const player = await getPlayer();
       setAllPlayers(player.people);
+      setPlayers([
+        player.people[595],
+        player.people[894],
+        player.people[288],
+        player.people[1341],
+        player.people[1199],
+        player.people[465],
+        player.people[627],
+        player.people[112],
+        player.people[1245],
+        player.people[1353],
+      ]);
     }
     fetchData();
   }, []);
 
-  useEffect(() => {
-    searchInput.length > 2 &&
-      setPlayers(
-        allPlayers.filter((p) =>
-          p.fullName.toLowerCase().includes(searchInput.toLowerCase())
-        )
-      );
-  }, [searchInput]);
+  const buttonClick = (e) => {
+    e.preventDefault();
 
-  console.log(players);
+    const searchedPlayer = allPlayers.filter((p) =>
+      p.fullName.toLowerCase().includes(tmpInput.toLowerCase())
+    );
+
+    tmpInput.length !== 0 && setPlayers(searchedPlayer);
+
+    const ohtaniIndex = allPlayers.findIndex((p) =>
+      p.fullName.includes('Elly De La Cruz')
+    );
+    console.log(ohtaniIndex);
+  };
+
   return (
     <>
       <div>
-        <div className="search">
+        <form className="search">
           <input
             className="search-input"
             type="text"
-            value={searchInput}
-            onChange={(e) => {
-              setSearchInput(e.target.value);
-            }}
-          ></input>
-        </div>
+            onChange={(e) => setTmpInput(e.target.value)}
+            placeholder="Search Player"
+          />
+          <button className="search-btn" type="submit" onClick={buttonClick}>
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
+        </form>
+
         <div className="Searched-Player">
           {players.map((p) => (
             <SearchPlayer

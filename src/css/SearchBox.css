@@ -7,6 +7,9 @@
   align-items: center;
 }
 
+.search-header h2{
+  font-weight: bold;
+}
 .search-input {
   border: none;
   background: none;

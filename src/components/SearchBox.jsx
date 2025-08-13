@@ -46,6 +46,10 @@ function SearchBox() {
   return (
     <>
       <div>
+        <div className="search-header">
+          <h2>Search & Follow Players</h2>
+        </div>
+        
         <form className="search">
           <input
             className="search-input"

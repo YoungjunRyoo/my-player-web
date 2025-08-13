@@ -18,15 +18,25 @@
 }
 
 .middle-column {
+  display: flex;
+  flex-direction: column;
   flex: 2;
+  gap: 20px;
+}
+.middle-up{
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   padding: 15px 10px;
-  height: fit-content;
-  min-height: 500px;
+}
+.middle-down{
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 15px 10px;
 }
 
+/* HomePage 에서 SearchPlayer 로 옮겼음.
 .middle-column > .search-text {
   margin: 0;
   font-size: 22px;
@@ -34,6 +44,7 @@
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
+*/
 
 .right-column {
   flex: 1;

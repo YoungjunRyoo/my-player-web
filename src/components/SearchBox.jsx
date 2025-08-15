@@ -2,11 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { getPlayer } from '../services/mlbApi';
 import SearchPlayer from './SearchPlayer';
 import '../css/SearchBox.css';
+import PlayerModal from './PlayerModal';
 
 function SearchBox() {
   const [allPlayers, setAllPlayers] = useState([]);
   const [players, setPlayers] = useState([]);
   const [tmpInput, setTmpInput] = useState('');
+
+  const [selectedPlayer, setSelectedPlayer] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
@@ -43,6 +47,15 @@ function SearchBox() {
     console.log(ohtaniIndex);
   };
 
+
+  const handlePlayerClick = (player) => {
+    setSelectedPlayer(player);
+    setIsModalOpen(true);
+  };
+
+
+  const closeModal = () => setIsModalOpen(false);
+
   return (
     <>
       <div>
@@ -64,15 +77,22 @@ function SearchBox() {
 
         <div className="Searched-Player">
           {players.map((p) => (
-            <SearchPlayer
-              id={p.id}
-              firstName={p.firstName}
-              lastName={p.lastName}
-            />
+            <div key={p.id} onClick={() => handlePlayerClick(p)}>
+              <SearchPlayer
+                id={p.id}
+                firstName={p.firstName}
+                lastName={p.lastName}
+              />
+            </div>
           ))}
         </div>
 
-        <div className="searchResult"></div>
+        <div className="searchResult"></div>  {/* what is this used for?*/}
+
+        {isModalOpen && (
+          <PlayerModal player={selectedPlayer} onClose={closeModal}/>
+        )}
+
       </div>
     </>
   );

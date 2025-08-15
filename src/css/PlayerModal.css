@@ -1,0 +1,64 @@
+/* src/css/PlayerModal.css */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.player-modal {
+  background: white;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 700px;
+  padding: 20px;
+  position: relative;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  overflow-y: auto;
+  max-height: 90vh;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.modal-header {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.player-img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 10px;
+  background-color: #eee;
+}
+
+.player-info {
+  flex: 1;
+}
+
+.player-info h2 {
+  margin-bottom: 10px;
+  font-size: 24px;
+}
+
+.player-info p {
+  margin: 4px 0;
+  font-size: 16px;
+}

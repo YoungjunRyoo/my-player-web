@@ -1,0 +1,104 @@
+.Login-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+.Login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  border-radius: 12px;
+  width: 400px;
+  height: 450px;
+  /* gap: 20px; */
+}
+.Login-close {
+  /* position: absolute; */
+  top: 10px;
+  right: 15px;
+  font-size: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #333;
+  transition: color 0.2s;
+}
+.Login-header {
+  margin: 0 0 70px 0;
+  text-align: center;
+  font-size: 28px;
+  font-weight: bold;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.Login-div {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  width: 80%;
+  max-width: 400px;
+  /* box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); */
+}
+
+.Login-div input {
+  padding: 12px 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  outline: none;
+  transition: border 0.2s;
+}
+
+.Login-div input:focus {
+  border-color: #007bff;
+}
+
+.Login-div button {
+  padding: 12px 15px;
+  border: none;
+  border-radius: 8px;
+  background-color: #007bff;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.Login-div button:hover {
+  background-color: #0056b3;
+}
+
+.forgetPassword {
+  display: flex;
+  justify-content: flex-end;
+  width: 80%;
+  margin: 5px 0 40px 0;
+  /* align-items: flex-end; */
+}
+
+.Login-container h5 {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  color: black;
+  cursor: pointer;
+  margin: 0;
+  font-weight: normal;
+  text-decoration: underline;
+}
+
+.Login-container h5:hover {
+  text-decoration: underline;
+}

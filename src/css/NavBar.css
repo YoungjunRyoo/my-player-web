@@ -30,3 +30,21 @@
 .link:hover {
   background-color: rgba(255, 255, 255, 0.1);
 }
+
+.profile {
+  display: flex;
+  align-items: center;
+  margin: 0px 7px;
+  gap: 3px;
+}
+
+.user {
+  font-size: 28px;
+  /* font-weight: bold; */
+  color: #e3e3e3;
+  cursor: pointer;
+}
+
+.user :hover {
+  cursor: pointer;
+}

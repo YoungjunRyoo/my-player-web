@@ -3,9 +3,11 @@ import '../css/NavBar.css';
 import { FaRegUserCircle } from 'react-icons/fa';
 import { useState } from 'react';
 import Login from './LogIn';
+import { useLoginContext } from '../contexts/LoginContext.jsx';
 
 function NavBar() {
   const [isModalOpen, setisModalOpen] = useState(false);
+  const { loginSuccess, currentUser } = useLoginContext();
 
   const clickSignIn = () => {
     setisModalOpen(true);
@@ -35,14 +37,24 @@ function NavBar() {
         </div>
         <div className="profile">
           <div>
-            <p className="link" onClick={() => clickSignIn()}>
-              Sign In
-            </p>
+            {!loginSuccess && (
+              <p className="link" onClick={() => clickSignIn()}>
+                Sign In
+              </p>
+            )}
           </div>
-          <FaRegUserCircle className="user" />
+          {loginSuccess && <FaRegUserCircle className="user" />}
         </div>
       </div>
-      <div>{isModalOpen && <Login close={closeModal} />}</div>
+
+      <div>
+        {isModalOpen && (
+          <>
+            <p>{currentUser?.email}</p>
+            <Login close={closeModal} />
+          </>
+        )}
+      </div>
     </>
   );
 }

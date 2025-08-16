@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import FavoritesPage from './pages/FavoritesPage';
 import NavBar from './components/NavBar';
+import { LoginProvider } from './contexts/LoginContext';
 import './App.css';
 
 function App() {

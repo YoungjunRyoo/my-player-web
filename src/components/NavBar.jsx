@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import '../css/NavBar.css';
 import { FaRegUserCircle } from 'react-icons/fa';
 import { useState } from 'react';
-import Login from './LogIn';
+import Login from './Login';
 import { useLoginContext } from '../contexts/LoginContext.jsx';
 
 function NavBar() {
@@ -36,21 +36,28 @@ function NavBar() {
           </div>
         </div>
         <div className="profile">
-          <div>
+          <div >
             {!loginSuccess && (
               <p className="link" onClick={() => clickSignIn()}>
                 Sign In
               </p>
             )}
+            
           </div>
-          {loginSuccess && <FaRegUserCircle className="user" />}
+          {loginSuccess && 
+          <div className='user-info'>
+            <h4 className='user-email'>
+              {currentUser.email}
+            </h4>
+            <FaRegUserCircle className="user" />
+          </div>}
         </div>
       </div>
 
       <div>
         {isModalOpen && (
           <>
-            <p>{currentUser?.email}</p>
+            
             <Login close={closeModal} />
           </>
         )}

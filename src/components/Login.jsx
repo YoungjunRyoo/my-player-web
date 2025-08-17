@@ -10,7 +10,7 @@ function Login({ close }) {
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
-  const { loginSuccess, setLoginTrue, loginUser } = useLoginContext();
+  const { loginSuccess, setLoginTrue, loginUser, currentUser } = useLoginContext();
 
   useEffect(() => {
     if (errorMsg) {
@@ -18,6 +18,15 @@ function Login({ close }) {
       return () => clearTimeout(timer);
     }
   }, [errorMsg]);
+
+  useEffect(() => {
+    if (currentUser) {
+        console.log("currentUser가 업데이트되었습니다:", currentUser);
+
+    }
+    
+}, [currentUser]);
+
 
   const clickButton = async (e) => {
     e.preventDefault();
@@ -37,11 +46,13 @@ function Login({ close }) {
       setLoginTrue();
       loginUser(userCredential.user);
       close();
+      
     } catch (error) {
       console.error('로그인 실패:', error.message);
       setErrorMsg('Failed to Login: check your email or password');
     }
   };
+
 
   return (
     <>

@@ -3,6 +3,7 @@ import '../css/Login.css';
 import { app } from '../services/firebase.js';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { useLoginContext } from '../contexts/LoginContext.jsx';
+import { db } from '../services/firestore.js';
 
 const auth = getAuth(app);
 
@@ -10,7 +11,8 @@ function Login({ close }) {
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
-  const { loginSuccess, setLoginTrue, loginUser, currentUser } = useLoginContext();
+  const { loginSuccess, setLoginTrue, loginUser, currentUser } =
+    useLoginContext();
 
   useEffect(() => {
     if (errorMsg) {
@@ -21,12 +23,9 @@ function Login({ close }) {
 
   useEffect(() => {
     if (currentUser) {
-        console.log("currentUser가 업데이트되었습니다:", currentUser);
-
+      console.log('currentUser가 업데이트되었습니다:', currentUser);
     }
-    
-}, [currentUser]);
-
+  }, [currentUser]);
 
   const clickButton = async (e) => {
     e.preventDefault();
@@ -46,13 +45,11 @@ function Login({ close }) {
       setLoginTrue();
       loginUser(userCredential.user);
       close();
-      
     } catch (error) {
       console.error('로그인 실패:', error.message);
       setErrorMsg('Failed to Login: check your email or password');
     }
   };
-
 
   return (
     <>

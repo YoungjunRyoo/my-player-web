@@ -87,7 +87,6 @@ function SearchBox() {
           ))}
         </div>
 
-        <div className="searchResult"></div>  {/* what is this used for?*/}
 
         {isModalOpen && (
           <PlayerModal player={selectedPlayer} onClose={closeModal}/>

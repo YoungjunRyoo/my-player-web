@@ -20,6 +20,14 @@
   padding: 6px 0;
   font-size: 16px;
   font-weight: 400;
+  
+}
+
+
+.player-name:hover,
+.team-abbr:hover {
+  color: blue; /* Use any color you prefer */
+  cursor: pointer;
 }
 
 .player-row span:nth-child(1) {

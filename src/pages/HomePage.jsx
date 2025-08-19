@@ -19,7 +19,6 @@ function HomePage() {
 
         <div className="middle-column">
           <div className="middle-up">
-                  {/* <p className="search-text">Search & Follow Your Players</p>   SearchBox.jsx 안으로 옮기면 안되나?*/}
             <SearchBox />
           </div>
           <div className="middle-down">

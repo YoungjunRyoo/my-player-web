@@ -1,6 +1,12 @@
 import '../css/SearchPlayer.css';
+import { addFavoritePlayer } from '../services/firestore';
 
 function SearchPlayer(prop) {
+  const handleFollowClick = (e) => {
+    e.stopPropagation();
+    addFavoritePlayer(prop);
+    console.log('click');
+  };
   return (
     <>
       <div className="playerInfo">
@@ -17,7 +23,7 @@ function SearchPlayer(prop) {
 
         <p className="player-name">{prop.firstName}</p>
         <p className="player-name">{prop.lastName}</p>
-        <div className="follow-box">
+        <div className="follow-box" onClick={handleFollowClick}>
           <p className="follow-text">Follow</p>
         </div>
       </div>

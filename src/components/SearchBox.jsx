@@ -47,12 +47,11 @@ function SearchBox() {
     console.log(ohtaniIndex);
   };
 
-
   const handlePlayerClick = (player) => {
     setSelectedPlayer(player);
     setIsModalOpen(true);
+    console.log(player);
   };
-
 
   const closeModal = () => setIsModalOpen(false);
 
@@ -62,7 +61,6 @@ function SearchBox() {
         <div className="search-header">
           <h2>Search & Follow Players</h2>
         </div>
-        
         <form className="search">
           <input
             className="search-input"
@@ -74,7 +72,6 @@ function SearchBox() {
             <i class="fa-solid fa-magnifying-glass"></i>
           </button>
         </form>
-
         <div className="Searched-Player">
           {players.map((p) => (
             <div key={p.id} onClick={() => handlePlayerClick(p)}>
@@ -89,9 +86,8 @@ function SearchBox() {
 
 
         {isModalOpen && (
-          <PlayerModal player={selectedPlayer} onClose={closeModal}/>
+          <PlayerModal player={selectedPlayer} onClose={closeModal} />
         )}
-
       </div>
     </>
   );

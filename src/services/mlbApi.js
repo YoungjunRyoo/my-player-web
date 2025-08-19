@@ -44,43 +44,40 @@ export async function getPlayerPitchingStats(playerId) {
   }));
 }
 
-export async function getBattingAverageStanding(season){
-  try{
+export async function getBattingAverageStanding(season) {
+  try {
     const res = await fetch(
       `${BASE_URL}/stats/leaders?leaderCategories=battingAverage&season${season}&sportId=1&limit=10`
-    )
+    );
     if (!res.ok) throw new Error('Failed to fetch standings');
     return await res.json();
-  }
-  catch(error){
+  } catch (error) {
     console.error('Error fetching standings:', error);
     return null;
   }
 }
 
-export async function getWinStanding(season){
-  try{
+export async function getWinStanding(season) {
+  try {
     const res = await fetch(
       `${BASE_URL}/stats/leaders?leaderCategories=wins&season=${season}&sportId=1&limit=10`
     );
     if (!res.ok) throw new Error('Failed to fetch standings');
     return await res.json();
-  }
-  catch(error){
+  } catch (error) {
     console.error('Error fetching standings:', error);
     return null;
   }
 }
 
-export async function getHomerunStanding(season){
-  try{
+export async function getHomerunStanding(season) {
+  try {
     const res = await fetch(
       `${BASE_URL}/stats/leaders?leaderCategories=homeRuns&sportId=1&season=${season}&limit=10`
     );
     if (!res.ok) throw new Error('Failed to fetch standings');
     return await res.json();
-  }
-  catch(error){
+  } catch (error) {
     console.error('Error fetching standings:', error);
     return null;
   }

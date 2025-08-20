@@ -1,7 +1,8 @@
 import '../css/DivisionStandings.css';
-function DivisionStandings({ division }) {
-  
-  const DIVISION_NAMES = {
+import { useState } from 'react';
+import TeamModal from './TeamModal';
+
+const DIVISION_NAMES = {
     200: "AL West",
     201: "AL East",
     202: "AL Central",
@@ -9,7 +10,8 @@ function DivisionStandings({ division }) {
     204: "NL East",
     205: "NL Central",
 };
-  const TEAM_NAME_ABBREVIATION = {
+
+const TEAM_NAME_ABBREVIATION = {
     108: "LAA", // Los Angeles Angels
     109: "ARI", // Arizona Diamondbacks
     110: "BAL", // Baltimore Orioles
@@ -42,6 +44,24 @@ function DivisionStandings({ division }) {
     158: "MIL"  // Milwaukee Brewers
 };
 
+function DivisionStandings({ division }) {
+  
+  const [selectedTeam, setSelectedTeam] = useState(null);
+  const [isTeamModalOpen, setIsTeamModalOpen] = useState(false);
+
+  const handleTeamClick = async (teamId) => {
+    try {
+      const res = await fetch(`https://statsapi.mlb.com/api/v1/teams/${teamId}`);
+      const data = await res.json();
+      setSelectedTeam(data.teams[0]);
+      setIsTeamModalOpen(true);
+    } catch (error) {
+      console.error('Failed to fetch team data:', error);
+    }
+  };
+
+  const closeTeamModal = () => setIsTeamModalOpen(false);
+  
   return (
     <div className="division-container">
       <h3 className="division-title">{DIVISION_NAMES[division.division?.id]}</h3>
@@ -54,7 +74,7 @@ function DivisionStandings({ division }) {
       </div>
       {division.teamRecords.map((team) => (
         <div className="team-row" key={team.team.id}>
-          <div className="team-info">
+          <div className="team-info" onClick={() => handleTeamClick(team.team.id)}>
             <img src={`https://www.mlbstatic.com/team-logos/${team.team.id}.svg`} alt={team.team.name} className="team-logo" />
             <span>{TEAM_NAME_ABBREVIATION[team.team.id]}</span>
           </div>
@@ -64,6 +84,11 @@ function DivisionStandings({ division }) {
           <span>{team.gamesBack}</span>
         </div>
       ))}
+
+      {isTeamModalOpen && (
+        <TeamModal team={selectedTeam} onClose={closeTeamModal} />
+      )}
+      
     </div>
   );
 }

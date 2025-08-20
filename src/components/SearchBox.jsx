@@ -13,24 +13,40 @@ function SearchBox() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    async function fetchData() {
-      const player = await getPlayer();
-      setAllPlayers(player.people);
-      setPlayers([
-        player.people[595],
-        player.people[894],
-        player.people[288],
-        player.people[1341],
-        player.people[1199],
-        player.people[465],
-        player.people[627],
-        player.people[112],
-        player.people[1245],
-        player.people[1353],
-      ]);
-    }
-    fetchData();
-  }, []);
+  async function fetchData() {
+    const player = await getPlayer(); // returns { people: [...] }
+
+    // your desired IDs
+    const selectedIds = [
+      808982, // Jung Hoo Lee
+      673490, // Ha-Seong Kim
+      808975, // Hyeseong Kim
+      808967, // Yoshinobu Yamamoto
+      808963, // Roki Sasaki
+      592450, // Aaron Judge (Yankees)
+      660271, // Shohei Ohtani (Dodgers)
+      660670, // Ronald Acuña Jr. (Braves)
+      608369, // Paul Goldschmidt (Cardinals)
+      547180, // Bryce Harper (Phillies)
+      547989, // José Abreu (White Sox)
+      518692, // Freddie Freeman (Dodgers)
+      605141, // Mookie Betts (Dodgers)
+      545361, // Mike Trout (Angels)
+      608336, // Juan Soto (Yankees)
+      664056, // Corey Seager (Rangers)
+      663586, // Yordan Alvarez (Astros)
+    ];
+
+    // filter players by ID
+    const selectedPlayers = player.people.filter(p =>
+      selectedIds.includes(p.id)
+    );
+
+    setAllPlayers(player.people);
+    setPlayers(selectedPlayers);
+  }
+  fetchData();
+}, []);
 
   const buttonClick = (e) => {
     e.preventDefault();

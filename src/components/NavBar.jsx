@@ -1,13 +1,25 @@
 import { Link } from 'react-router-dom';
 import '../css/NavBar.css';
 import { FaRegUserCircle } from 'react-icons/fa';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Login from './LogIn.jsx';
 import { useLoginContext } from '../contexts/LoginContext.jsx';
+import { handleSignOut } from '../services/firebase.js';
+import { auth } from '../services/firebase.js';
+import { onAuthStateChanged } from 'firebase/auth';
 
 function NavBar() {
   const [isModalOpen, setisModalOpen] = useState(false);
-  const { loginSuccess, currentUser } = useLoginContext();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+
+    return () => unsubscribe(); // Clean up
+  }, []);
 
   const clickSignIn = () => {
     setisModalOpen(true);
@@ -15,6 +27,15 @@ function NavBar() {
 
   const closeModal = () => {
     setisModalOpen(false);
+  };
+
+  const toggleUserMenu = () => {
+    setIsMenuOpen((prev) => !prev);
+  };
+
+  const handleLogout = async () => {
+    await handleSignOut();
+    setIsMenuOpen(false);
   };
 
   return (
@@ -30,23 +51,34 @@ function NavBar() {
             <Link to="/" className="link">
               Home
             </Link>
-            <Link to="/favorites" className="link">
-              Favorites
-            </Link>
-          </div>
-        </div>
-        <div className="profile">
-          <div>
-            {!loginSuccess && (
-              <p className="link" onClick={() => clickSignIn()}>
-                Sign In
+            {user ? (
+              <Link to="/favorites" className="link">
+                Favorites
+              </Link>
+            ) : (
+              <p className="link" onClick={clickSignIn}>
+                Favorites
               </p>
             )}
           </div>
-          {loginSuccess && (
-            <div className="user-info">
-              <h4 className="user-email">{currentUser.email}</h4>
-              <FaRegUserCircle className="user" />
+        </div>
+        <div className="profile">
+          {!user && (
+            <p className="link" onClick={() => clickSignIn()}>
+              Sign In
+            </p>
+          )}
+
+          {user && (
+            <div className="profile">
+              <FaRegUserCircle className="user-icon" onClick={toggleUserMenu} />
+            </div>
+          )}
+
+          {user && isMenuOpen && (
+            <div className="user-dropdown-menu">
+              <p>Account Settings</p>
+              <p onClick={handleLogout}>Log out</p>
             </div>
           )}
         </div>

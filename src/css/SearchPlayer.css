@@ -7,6 +7,10 @@
   border: 1px solid rgb(205, 205, 205);
   border-radius: 15px;
 }
+.playerInfo:hover{
+  cursor:pointer;
+  background-color: rgb(205, 202, 202);
+}
 
 .playerInfo > .playerInfo-img {
   margin: 15px 0 10px 0;
@@ -24,7 +28,7 @@
   filter: brightness(0.9);
 }
 
-.playerInfo > .player-name {
+.playerInfo > .p-name {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-weight: 650;
@@ -45,7 +49,7 @@
   border-radius: 20px;
 }
 .follow-box:hover {
-  background-color: #3574ac;
+  background-color: #2f6a9d;
   cursor: pointer;
 }
 

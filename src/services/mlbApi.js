@@ -1,5 +1,42 @@
 const BASE_URL = 'https://statsapi.mlb.com/api/v1';
 
+export async function getPlayerLast3HittingGames(playerId) {
+  const res = await fetch(`https://statsapi.mlb.com/api/v1/people/${playerId}/stats?stats=gameLog&group=hitting`);
+  const data = await res.json();
+  const games = data.stats?.[0]?.splits || [];
+
+  return games.slice(-3).map((g) => ({
+    date: g.date,
+    opponent: g.opponent?.name || 'N/A',
+    hits: g.stat.hits,
+    atBats: g.stat.atBats,
+    runs: g.stat.runs,
+    homeRuns: g.stat.homeRuns,
+    rbi: g.stat.rbi,
+    strikeOuts: g.stat.strikeOuts,
+    stolenBases: g.stat.stolenBases,
+  }));
+}
+
+export async function getPlayerLast3PitchingGames(playerId) {
+  const res = await fetch(`https://statsapi.mlb.com/api/v1/people/${playerId}/stats?stats=gameLog&group=pitching`);
+  const data = await res.json();
+  const games = data.stats?.[0]?.splits || [];
+
+  return games.slice(-3).map((g) => ({
+    date: g.date,
+    opponent: g.opponent?.name || 'N/A',
+    inningsPitched: g.stat.inningsPitched,
+    earnedRuns: g.stat.earnedRuns,
+    strikeOuts: g.stat.strikeOuts,
+    hits: g.stat.hits,
+    walks: g.stat.baseOnBalls,
+    runs: g.stat.runs,
+    decisions: g.stat.decision,
+  }));
+}
+
+
 export async function getPlayerById(playerId) {
   try {
     const response = await fetch(       //뒤에 currentTeam 붙임으로써 팀 이름도 불러올수있음
@@ -20,10 +57,18 @@ export async function getPlayerHittingStats(playerId) {
 
   return stats.map((s) => ({
     season: s.season,
-    teamAbbreviation: s.team?.abbreviation || '',
-    avg: s.stat.avg,
+    teamId: s.team.id,
+    gamesPlayed: s.stat.gamesPlayed,
+    atBats: s.stat.atBats,
+    runs: s.stat.runs,
+    hits: s.stat.hits,
+    doubles: s.stat.doubles,
+    triples: s.stat.triples,
     homeRuns: s.stat.homeRuns,
     rbi: s.stat.rbi,
+    strikeOuts: s.stat.strikeOuts,
+    stolenBases: s.stat.stolenBases,
+    avg: s.stat.avg,
     ops: s.stat.ops,
   }));
 }
@@ -35,10 +80,15 @@ export async function getPlayerPitchingStats(playerId) {
 
   return stats.map((s) => ({
     season: s.season,
-    teamAbbreviation: s.team?.abbreviation || '',
-    era: s.stat.era,
+    teamId: s.team.id,
     wins: s.stat.wins,
     losses: s.stat.losses,
+    era: s.stat.era,
+    gamesPlayed: s.stat.gamesPlayed,
+    gamesStarted: s.stat.gamesStarted,
+    holds: s.stat.holds,
+    saves: s.stat.saves,
+    inningsPitched: s.stat.inningsPitched,
     strikeOuts: s.stat.strikeOuts,
     whip: s.stat.whip,
   }));

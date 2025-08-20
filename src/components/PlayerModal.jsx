@@ -1,9 +1,16 @@
 // src/components/PlayerModal.jsx
 import { useEffect, useState } from 'react';
 import '../css/PlayerModal.css';
-import { getPlayerHittingStats, getPlayerPitchingStats } from '../services/mlbApi';
+import {
+  getPlayerHittingStats,
+  getPlayerPitchingStats,
+  getPlayerLast3PitchingGames,
+  getPlayerLast3HittingGames
+} from '../services/mlbApi';
 import HittingStats from './HittingStats';
 import PitchingStats from './PitchingStats';
+import Last3HittingGames from './Last3HittingGames';
+import Last3PitchingGames from './Last3PitchingGames';
 
 const TEAM_NAME_MAP = {
   108: "Los Angeles Angels", 109: "Arizona Diamondbacks", 110: "Baltimore Orioles", 111: "Boston Red Sox",
@@ -16,27 +23,32 @@ const TEAM_NAME_MAP = {
   147: "New York Yankees", 158: "Milwaukee Brewers"
 };
 
-
 function PlayerModal({ player, onClose }) {
   const [hittingStats, setHittingStats] = useState(null);
   const [pitchingStats, setPitchingStats] = useState(null);
+  const [last3Hitting, setLast3Hitting] = useState([]);
+  const [last3Pitching, setLast3Pitching] = useState([]);
 
   useEffect(() => {
     if (!player) return;
 
     const fetchStats = async () => {
-      if (player.primaryPosition?.type === 'Pitcher') {
+      const isPitcher = player.primaryPosition?.type === 'Pitcher';
+      const isHitter = player.primaryPosition?.type === 'Position Player';
+      const isTwoWay = !isPitcher && !isHitter;
+
+      if (isPitcher || isTwoWay) {
         const pitching = await getPlayerPitchingStats(player.id);
+        const pitchingGames = await getPlayerLast3PitchingGames(player.id);
         setPitchingStats(pitching);
-      } else if (player.primaryPosition?.type === 'Position Player') {
+        setLast3Pitching(pitchingGames);
+      }
+
+      if (isHitter || isTwoWay) {
         const hitting = await getPlayerHittingStats(player.id);
+        const hittingGames = await getPlayerLast3HittingGames(player.id);
         setHittingStats(hitting);
-      } else {
-        // Two-way player: fetch both
-        const hitting = await getPlayerHittingStats(player.id);
-        const pitching = await getPlayerPitchingStats(player.id);
-        setHittingStats(hitting);
-        setPitchingStats(pitching);
+        setLast3Hitting(hittingGames);
       }
     };
 
@@ -57,23 +69,40 @@ function PlayerModal({ player, onClose }) {
             className="player-img"
           />
           <div className="player-info">
-            <h1>{player.fullName} #{player.primaryNumber || 'N/A'}</h1>
-            <button className="follow-btn">Follow</button>
+            <h1><img src={`https://www.mlbstatic.com/team-logos/${player.currentTeam.id}.svg`} alt={player.currentTeam.name} className="team-logo-small" />   {player.fullName} #{player.primaryNumber || 'N/A'} </h1>
+            <hr className="player-divider"/>
             <p><strong>Team:</strong> {TEAM_NAME_MAP[player.currentTeam?.id] || 'N/A'}</p>
-            <p><strong>Position:</strong> {player.primaryPosition?.name}</p>
+            <p><strong>Born:</strong> {player.birthDate} in {player.birthCity}, {player.birthStateProvince}, {player.birthCountry} </p>
             <p><strong>MLB Debut:</strong> {player.mlbDebutDate}</p>
-            <p><strong>Draft Year:</strong> {player.draftYear || 'N/A'}</p>
-            <p><strong>Birthplace:</strong> {player.birthCity}, {player.birthStateProvince}, {player.birthCountry}</p>
-            <p><strong>Birth Date:</strong> {player.birthDate}</p>
-            <p><strong>Height:</strong> {player.height}</p>
-            <p><strong>Weight:</strong> {player.weight} lbs</p>
-            <p><strong>Throws:</strong> {player.pitchHand?.description}</p>
-            <p><strong>Bats:</strong> {player.batSide?.description}</p>
+            <p><strong>Height / Weight:</strong> {player.height} / {player.weight}lbs</p>
+            <p><strong>Position:</strong> {player.primaryPosition?.name}</p>
+            <p><strong>Throws / Bats:</strong> {player.pitchHand?.description} / {player.batSide?.description}</p>
+            <button className="follow-btn">Follow</button>
+            <hr className="player-divider"/>
           </div>
         </div>
 
-        {hittingStats && hittingStats.length > 0 && <HittingStats stats={hittingStats}/>}
-        {pitchingStats && pitchingStats.length > 0 && <PitchingStats stats={pitchingStats} />}
+        {hittingStats && hittingStats.length > 0 && (
+          <>
+            <Last3HittingGames games={last3Hitting}/>
+          </>
+        )}
+        {pitchingStats && pitchingStats.length > 0 && (
+          <>
+            <Last3PitchingGames games={last3Pitching}/>
+          </>
+        )}
+        {hittingStats && hittingStats.length > 0 && (
+          <>
+            <HittingStats stats={hittingStats}/>
+          </>
+        )}
+
+        {pitchingStats && pitchingStats.length > 0 && (
+          <>
+            <PitchingStats stats={pitchingStats} />
+          </>
+        )}
       </div>
     </div>
   );

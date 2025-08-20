@@ -37,17 +37,16 @@
 }
 
 .follow-box {
-  margin-top: 15px;
+  margin-top: 10px;
   background-color: #3d85c6;
   width: 120px;
   height: 35px;
-
   display: flex;
   justify-content: center; /* 가로 중앙 */
   align-items: center; /* 세로 중앙 */
-
   border-radius: 20px;
 }
+
 .follow-box:hover {
   background-color: #2f6a9d;
   cursor: pointer;
@@ -58,5 +57,25 @@
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-weight: bold;
   color: white;
+  margin: 0;
+}
+
+.following-box{
+  margin-top: 10px;
+  background-color: #ffffff;
+  border: 1px solid #3d85c6;
+  width: 120px;
+  height: 35px;
+  display: flex;
+  justify-content: center; /* 가로 중앙 */
+  align-items: center; /* 세로 중앙 */
+  border-radius: 20px;
+}
+
+.following-text {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-weight: bold;
+  color: #3d85c6;
   margin: 0;
 }

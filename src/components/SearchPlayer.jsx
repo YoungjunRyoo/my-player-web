@@ -30,13 +30,14 @@ function SearchPlayer(prop) {
 
         <p className="p-name">{prop.firstName}</p>
         <p className="p-name">{prop.lastName}</p>
-        <div className="follow-box" onClick={handleFollowClick}>
-          {isFollowing ? (
-            <p className="follow-text">Following</p>
-          ) : (
-            <p className="follow-text">Follow</p>
-          )}
-        </div>
+        {isFollowing? 
+        (<div className="following-box" onClick={handleFollowClick}>
+          <p className="following-text">Following</p>
+        </div>): 
+        (<div className="follow-box" onClick={handleFollowClick}>
+          <p className="follow-text">Follow</p>
+        </div>)}
+
       </div>
     </>
   );

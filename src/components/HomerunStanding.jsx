@@ -65,6 +65,7 @@ function HomerunStanding() {
 
       {hrStanding.slice(0, 9).map((p) => (
         <div className="player-row" key={p.person.id}>
+        <div className="player-row" key={p.person.id}>
           <span>{p.rank}</span>
 
           <span>

@@ -6,6 +6,12 @@
   height: 82px;
   width: 100%;
 }
+
+.nav-links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .navbar-menu {
   display: flex;
   align-items: center;
@@ -25,6 +31,7 @@
   font-weight: 600;
   padding: 8px;
   border-radius: 5px;
+  cursor: pointer;
 }
 
 .link:hover {
@@ -38,24 +45,65 @@
   gap: 3px;
 }
 
-.user-info{
+.user-info {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
 }
 
-.user-email{
-  color:  #e3e3e3;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+.user-email {
+  color: #e3e3e3;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
-.user {
+.user-icon {
   font-size: 28px;
-  /* font-weight: bold; */
   color: #e3e3e3;
   cursor: pointer;
+  padding-right: 5px;
 }
 
 .user :hover {
   cursor: pointer;
+  color: #b6b6b6;
+}
+
+.profile {
+  position: relative;
+}
+
+.user-dropdown-menu {
+  position: absolute;
+  top: 110%; /* Position it right below the parent */
+  right: 0;
+  width: 150px;
+  background-color: #e3e3e3;
+  color: black;
+  border: 0.5px solid #d8d8d8;
+  border-radius: 4px;
+  z-index: 1000;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+}
+
+.user-dropdown-menu p,
+.user-dropdown-menu button {
+  padding: 12px 16px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 15px;
+  margin: 0;
+  cursor: pointer;
+  border-bottom: 0.5px solid #8f8f8f;
+}
+
+.user-dropdown-menu p:last-child {
+  border-bottom: none;
+}
+
+.user-dropdown-menu p:hover,
+.user-dropdown-menu button:hover {
+  background-color: #dcdcdc;
 }

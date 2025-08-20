@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
-import { getAuth } from 'firebase/auth';
+import { getAuth, signOut } from 'firebase/auth';
 
 // TODO: Replace the following with your app's Firebase configuration
 const firebaseConfig = {
@@ -20,4 +20,15 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
 
-export { app };
+const handleSignOut = async () => {
+  try {
+    await signOut(auth);
+    console.log('로그아웃 성공!');
+    return true;
+  } catch (error) {
+    console.error('로그아웃 오류:', error);
+    return false;
+  }
+};
+
+export { db, auth, handleSignOut };

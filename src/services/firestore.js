@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
+import { getFirestore, doc, setDoc, collection, getDocs } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 
 const firebaseConfig = {
@@ -15,21 +15,20 @@ const auth = getAuth(app);
 
 const addFavoritePlayer = async (playerData) => {
   const user = auth.currentUser;
-  console.log(auth.currentUser);
 
   if (user) {
     const userId = user.uid;
-    const playerId = playerData.id;
+    const playerId = String(playerData.id);
 
     try {
-      const favoritesCollectionRef = collection(
+      const playerDocRef  = doc(
         db,
         'users',
         userId,
         'favorites',
         playerId
       );
-      await setDoc(favoritesCollectionRef, playerId);
+      await setDoc(playerDocRef , playerData);
       console.log('선수 정보가 성공적으로 추가되었습니다.');
     } catch (e) {
       console.error('Error adding document: ', e);
@@ -39,4 +38,32 @@ const addFavoritePlayer = async (playerData) => {
   }
 };
 
-export { db, addFavoritePlayer };
+async function getFavoritePlayers() {
+  const user = auth.currentUser;
+
+  if(user){
+    const userId = user.uid;
+
+    try{
+       const favoritesColRef = collection(db, "users", userId, "favorites");
+  const favoritesSnapshot = await getDocs(favoritesColRef);
+
+  const playerList = favoritesSnapshot.docs.map(doc => ({
+    id: doc.id,
+    ...doc.data()
+  }));
+
+  return playerList;
+
+    }catch (e) {
+      console.error('Error reading document: ', e);
+    }
+
+  }
+  else{
+    console.log('No user is logged in.');
+  } 
+}
+
+
+export { db, addFavoritePlayer, getFavoritePlayers };

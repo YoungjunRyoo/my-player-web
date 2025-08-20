@@ -11,8 +11,7 @@ function Login({ close }) {
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
-  const { loginSuccess, setLoginTrue, loginUser, currentUser } =
-    useLoginContext();
+  const { loginSuccess, setLoginTrue, loginUser, currentUser } = useLoginContext();
 
   useEffect(() => {
     if (errorMsg) {
@@ -29,7 +28,6 @@ function Login({ close }) {
 
   const clickButton = async (e) => {
     e.preventDefault();
-
     login(id, password);
   };
 

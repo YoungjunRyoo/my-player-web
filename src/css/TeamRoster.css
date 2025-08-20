@@ -1,0 +1,65 @@
+
+
+.team-roster-container {
+  margin-top: 24px;
+  width: 100%;
+  padding: 0;             /* remove left-only padding so it can reach the right edge */
+  overflow-x: auto;       /* keep safety for narrow screens */
+}
+
+.team-roster-title {
+  margin: 0 0 8px;
+  
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.team-roster-table {
+  width: 100%;            /* fill the container/modal width */
+  border-collapse: collapse;
+  font-size: 14px;
+  margin: 0;
+  text-align: left;
+}
+
+.team-roster-table thead th {
+  background: #f1f1f1;
+  text-align: left;
+  padding: 8px 12px;      /* balanced cell padding */
+  font-weight: 600;
+}
+
+.team-roster-table tbody td {
+  padding: 8px 12px;      /* balanced cell padding */
+  border-bottom: 1px solid #ddd;
+}
+
+.team-roster-player {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.team-roster-player img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.player-number {
+  margin-left: 4px;
+  color: #888;
+  font-size: 13px;
+}
+
+/* Optional: better readability on very small screens */
+@media (max-width: 480px) {
+  .team-roster-table {
+    font-size: 13px;
+  }
+  .team-roster-player img {
+    width: 36px;
+    height: 36px;
+  }
+}

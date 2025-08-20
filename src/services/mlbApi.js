@@ -1,5 +1,49 @@
 const BASE_URL = 'https://statsapi.mlb.com/api/v1';
 
+export async function getTeamById(teamId) {
+  const res = await fetch(`https://statsapi.mlb.com/api/v1/teams/${teamId}?hydrate=venue,division`);
+  if (!res.ok) throw new Error(`Team fetch failed: ${res.status}`);
+  const data = await res.json();
+  return data; // usually { teams: [ ... ] }
+}
+
+export async function fetchTeamGameSummaries(teamId) {
+  const now = new Date();
+  const url = `https://statsapi.mlb.com/api/v1/schedule?teamId=${teamId}&sportId=1&season=2025&hydrate=team,venue,linescore`;
+
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+
+    const allGames = data.dates.flatMap(d => d.games);
+
+    const pastGames = allGames
+      .filter(game => new Date(game.gameDate) < now && game.status.abstractGameState === 'Final')
+      .slice(-3);
+
+    const futureGames = allGames
+      .filter(game => new Date(game.gameDate) >= now && game.status.abstractGameState === 'Preview')
+      .slice(0, 3);
+
+    return { pastGames, futureGames };
+
+  } catch (err) {
+    console.error('Error fetching game summaries:', err);
+    return { pastGames: [], futureGames: [] };
+  }
+}
+
+export async function fetchTeamRoster(teamId) {
+  try {
+    const res = await fetch(`https://statsapi.mlb.com/api/v1/teams/${teamId}/roster/Active?hydrate=person`);
+    const data = await res.json();
+    return data.roster || [];
+  } catch (error) {
+    console.error(`Failed to fetch roster for team ${teamId}:`, error);
+    return [];
+  }
+}
+
 export async function getPlayerLast3HittingGames(playerId) {
   const res = await fetch(`https://statsapi.mlb.com/api/v1/people/${playerId}/stats?stats=gameLog&group=hitting`);
   const data = await res.json();

@@ -44,7 +44,6 @@ function HomerunStanding() {
   const handleTeamClick = async (teamId) => {
     try {
       const teamResp = await getTeamById(teamId); // see service stub below
-      // Depending on your API shape, this might be teamResp.teams[0]
       const team = teamResp.teams ? teamResp.teams[0] : teamResp;
       setSelectedTeam(team);
       setIsTeamModalOpen(true);
@@ -64,7 +63,6 @@ function HomerunStanding() {
       </div>
 
       {hrStanding.slice(0, 9).map((p) => (
-        <div className="player-row" key={p.person.id}>
         <div className="player-row" key={p.person.id}>
           <span>{p.rank}</span>
 

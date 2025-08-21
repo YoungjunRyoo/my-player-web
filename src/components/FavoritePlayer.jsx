@@ -241,7 +241,7 @@ function FavoritePlayer({ id }) {
           }}
         />
         <div className="player_name_positon_following">
-          <p className="player-name">{`${currentPlayer.fullName}`}</p>
+          <p className="favorite-player-name">{`${currentPlayer.fullName}`}</p>
           <div>
             <p className="player-position">
               {`${

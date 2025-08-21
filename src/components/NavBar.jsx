@@ -42,10 +42,8 @@ function NavBar() {
     <>
       <div className="navbar">
         <div className="navbar-menu">
-          <Link to="/" className="link">
-            {/* <p className="link">My player</p> */}
+          <Link to="/" className="home-link">
             MyPlayer
-            {/* <img src="/images/logo.png" alt="Logo" /> */}
           </Link>
           <div className="nav-links">
             <Link to="/" className="link">

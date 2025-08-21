@@ -1,11 +1,7 @@
+// src/components/NewsSection.jsx
 import "../css/NewsSection.css";
 import { useEffect, useState, useMemo } from "react";
 import { getMlbNews } from "../services/newsApi";
-
-function toMirror(url) {
-  if (!url) return "";
-  return `https://r.jina.ai/${url.replace(/^https?:\/\//, "")}`;
-}
 
 function NewsSection({ teamSlug, limit = 6 }) {
   const [items, setItems] = useState(null);
@@ -73,15 +69,17 @@ function NewsSection({ teamSlug, limit = 6 }) {
       <ul className="news-grid">
         {items.map((n, i) => (
           <li key={i} className="news-card">
+            {/* Direct link to MLB article */}
             <a
               className="news-title"
-              href={toMirror(n.link)}
+              href={n.link}
               target="_blank"
               rel="noopener noreferrer"
-              referrerPolicy="no-referrer"
             >
               {n.title}
             </a>
+
+            {/* Metadata */}
             <div className="news-meta">
               <span>{new Date(n.pubDate).toLocaleDateString()}</span>
               <span>•</span>

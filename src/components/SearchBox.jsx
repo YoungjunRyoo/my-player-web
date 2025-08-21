@@ -21,8 +21,13 @@ function SearchBox() {
       808982, // Jung Hoo Lee
       673490, // Ha-Seong Kim
       808975, // Hyeseong Kim
+      678225, // Jihwan Bae
       808967, // Yoshinobu Yamamoto
       808963, // Roki Sasaki
+      506433, // Darvish
+      673548, // suzuki seiya
+      673513,  // Matsui
+      579328,  // Kikuchi
       592450, // Aaron Judge (Yankees)
       660271, // Shohei Ohtani (Dodgers)
       660670, // Ronald Acuña Jr. (Braves)
@@ -35,6 +40,7 @@ function SearchBox() {
       608336, // Juan Soto (Yankees)
       664056, // Corey Seager (Rangers)
       663586, // Yordan Alvarez (Astros)
+
     ];
 
     // filter players by ID

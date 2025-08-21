@@ -55,7 +55,7 @@ function sanitizeLink(raw) {
   }
 }
 
-export async function getMlbNews({ teamSlug, limit = 8 } = {}) {
+export async function getMlbNews({ teamSlug, limit = 9 } = {}) {
   const url = buildFeedUrl({ teamSlug });
   const res = await fetch(url);
   if (!res.ok) throw new Error("Failed to fetch MLB news");

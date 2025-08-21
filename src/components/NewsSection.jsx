@@ -3,7 +3,7 @@ import "../css/NewsSection.css";
 import { useEffect, useState, useMemo } from "react";
 import { getMlbNews } from "../services/newsApi";
 
-function NewsSection({ teamSlug, limit = 6 }) {
+function NewsSection({ teamSlug, limit = 9 }) {
   const [items, setItems] = useState(null);
   const [err, setErr] = useState("");
 

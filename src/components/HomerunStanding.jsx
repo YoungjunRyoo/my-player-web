@@ -58,7 +58,7 @@ function HomerunStanding() {
   return (
     <div className="homerun-standing">
       <div className="homerun-header">
-        <span>HOME RUN</span>
+        <span>Home Run</span>
         <span>HR</span>
       </div>
 

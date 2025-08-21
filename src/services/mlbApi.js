@@ -195,7 +195,7 @@ export async function getTodayGame() {
   const now = new Date();
   const year = now.getFullYear();
   const month = now.getMonth() + 1;
-  const day = now.getDate() - 2;
+  const day = now.getDate() - 1;
   const monthStr = String(month).padStart(2, '0');
   const dayStr = String(day).padStart(2, '0');
 

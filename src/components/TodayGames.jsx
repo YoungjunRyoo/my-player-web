@@ -21,7 +21,7 @@ const monthNames = [
 const now = new Date();
 const monthStr = monthNames[now.getMonth()];
 
-const day = now.getDate() - 2;
+const day = now.getDate() - 1;
 
 function TodayGames() {
   const [todayGames, setTodayGames] = useState([]);

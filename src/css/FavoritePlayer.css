@@ -1,9 +1,10 @@
 .favorite {
   background-color: #25252511;
   padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 20px;
 }
 
 .player-card {

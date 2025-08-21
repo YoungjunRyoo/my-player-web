@@ -208,13 +208,13 @@ function FavoritePlayer({ id }) {
     fetchPlayer();
   }, [id]);
 
-  //   useEffect(() => {
-  //     console.log(currentPlayer);
-  //   }, [currentPlayer]);
-
   useEffect(() => {
-    console.log(hittingStats);
-  }, [hittingStats]);
+    console.log(currentPlayer);
+  }, [currentPlayer]);
+
+  //   useEffect(() => {
+  //     console.log(hittingStats);
+  //   }, [hittingStats]);
 
   //   useEffect(() => {
   //     console.log(last3Hitting);
@@ -263,7 +263,7 @@ function FavoritePlayer({ id }) {
           className="Ranking-component"
           style={{
             backgroundColor:
-              TEAM_COLORS[currentPlayer.currentTeam.name] || 'transparent',
+              TEAM_COLORS[currentPlayer.currentTeam.name] || '#252525',
           }}
         >
           <p className="Ranking-text">AVG</p>
@@ -276,7 +276,7 @@ function FavoritePlayer({ id }) {
           className="Ranking-component"
           style={{
             backgroundColor:
-              TEAM_COLORS[currentPlayer.currentTeam.name] || 'transparent',
+              TEAM_COLORS[currentPlayer.currentTeam.name] || '#252525',
           }}
         >
           <p className="Ranking-text">HR</p>
@@ -289,7 +289,7 @@ function FavoritePlayer({ id }) {
           className="Ranking-component"
           style={{
             backgroundColor:
-              TEAM_COLORS[currentPlayer.currentTeam.name] || 'transparent',
+              TEAM_COLORS[currentPlayer.currentTeam.name] || '#252525',
           }}
         >
           <p className="Ranking-text">OPS</p>
@@ -302,7 +302,7 @@ function FavoritePlayer({ id }) {
           className="Ranking-component"
           style={{
             backgroundColor:
-              TEAM_COLORS[currentPlayer.currentTeam.name] || 'transparent',
+              TEAM_COLORS[currentPlayer.currentTeam.name] || '#252525',
           }}
         >
           <p className="Ranking-text">RBI</p>

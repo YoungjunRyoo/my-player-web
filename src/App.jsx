@@ -14,7 +14,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/favorites" element={<FavoritesPage />} />
       </Routes>
-      <Footer />
+      
     </Router>
   );
 }

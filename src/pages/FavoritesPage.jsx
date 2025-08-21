@@ -1,42 +1,21 @@
 import TodayGames from '../components/TodayGames';
 import { getFavoritePlayers } from '../services/firestore';
 import SearchPlayer from '../components/SearchPlayer';
-import { useState, useEffect } from 'react';
 import { useLoginContext } from '../contexts/LoginContext';
+import FavoritePlayer from '../components/FavoritePlayer.jsx';
+import '../css/FavoritePlayer.css';
 
 function FavoritesPage() {
   const { favoritePlayers } = useLoginContext();
 
-  // useEffect(() => {
-  //   const fetchFavorites = async () => {
-  //     try {
-  //       const players = await getFavoritePlayers();
-
-  //       if (players) {
-  //         setFavoritePlayers(players);
-  //       } else {
-  //         setFavoritePlayers([]);
-  //       }
-  //     } catch (e) {
-  //       console.error(e);
-  //     }
-  //   };
-
-  //   fetchFavorites();
-  // }, []);
-
   return (
     <div>
       <TodayGames />
-      <div>
+      <div className="favorite">
         {favoritePlayers.map((p) => (
-          <SearchPlayer
-            id={p.id}
-            firstName={p.firstName}
-            lastName={p.lastName}
-          />
+          <FavoritePlayer id={p.id} />
         ))}
-        {console.log(getFavoritePlayers())}
+        {/* {console.log(getFavoritePlayers())} */}
       </div>
     </div>
   );

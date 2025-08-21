@@ -1,7 +1,9 @@
 const BASE_URL = 'https://statsapi.mlb.com/api/v1';
 
 export async function getPlayerLast3HittingGames(playerId) {
-  const res = await fetch(`https://statsapi.mlb.com/api/v1/people/${playerId}/stats?stats=gameLog&group=hitting`);
+  const res = await fetch(
+    `https://statsapi.mlb.com/api/v1/people/${playerId}/stats?stats=gameLog&group=hitting`
+  );
   const data = await res.json();
   const games = data.stats?.[0]?.splits || [];
 
@@ -19,7 +21,9 @@ export async function getPlayerLast3HittingGames(playerId) {
 }
 
 export async function getPlayerLast3PitchingGames(playerId) {
-  const res = await fetch(`https://statsapi.mlb.com/api/v1/people/${playerId}/stats?stats=gameLog&group=pitching`);
+  const res = await fetch(
+    `https://statsapi.mlb.com/api/v1/people/${playerId}/stats?stats=gameLog&group=pitching`
+  );
   const data = await res.json();
   const games = data.stats?.[0]?.splits || [];
 
@@ -36,11 +40,11 @@ export async function getPlayerLast3PitchingGames(playerId) {
   }));
 }
 
-
 export async function getPlayerById(playerId) {
   try {
-    const response = await fetch(       //뒤에 currentTeam 붙임으로써 팀 이름도 불러올수있음
-      `${BASE_URL}/people/${playerId}?hydrate=currentTeam`  
+    const response = await fetch(
+      //뒤에 currentTeam 붙임으로써 팀 이름도 불러올수있음
+      `${BASE_URL}/people/${playerId}?hydrate=currentTeam`
     );
     if (!response.ok) throw new Error('Failed to fetch player info');
     return await response.json();
@@ -51,7 +55,9 @@ export async function getPlayerById(playerId) {
 }
 
 export async function getPlayerHittingStats(playerId) {
-  const res = await fetch(`https://statsapi.mlb.com/api/v1/people/${playerId}/stats?stats=yearByYear&group=hitting`);
+  const res = await fetch(
+    `https://statsapi.mlb.com/api/v1/people/${playerId}/stats?stats=yearByYear&group=hitting`
+  );
   const data = await res.json();
   const stats = data.stats[0]?.splits || [];
 
@@ -70,11 +76,14 @@ export async function getPlayerHittingStats(playerId) {
     stolenBases: s.stat.stolenBases,
     avg: s.stat.avg,
     ops: s.stat.ops,
+    obp: s.stat.obp,
   }));
 }
 
 export async function getPlayerPitchingStats(playerId) {
-  const res = await fetch(`https://statsapi.mlb.com/api/v1/people/${playerId}/stats?stats=yearByYear&group=pitching`);
+  const res = await fetch(
+    `https://statsapi.mlb.com/api/v1/people/${playerId}/stats?stats=yearByYear&group=pitching`
+  );
   const data = await res.json();
   const stats = data.stats[0]?.splits || [];
 
@@ -176,4 +185,50 @@ export async function getPlayer() {
     console.error('Error fetching players:', error);
     return null;
   }
+}
+
+export async function getHittingStats() {
+  const res = await fetch(
+    'https://statsapi.mlb.com/api/v1/stats?stats=season&group=hitting&gameType=R&limit=1000'
+  );
+  const data = await res.json();
+  return data.stats[0].splits; // 모든 선수 스탯
+}
+
+export async function getPlayerRankings(playerId) {
+  const splits = await getHittingStats();
+
+  const sortedByOPS = [...splits].sort(
+    (a, b) => parseFloat(b.stat.ops) - parseFloat(a.stat.ops)
+  );
+  const sortedByHR = [...splits].sort(
+    (a, b) => b.stat.homeRuns - a.stat.homeRuns
+  );
+  const sortedByRBI = [...splits].sort((a, b) => b.stat.rbi - a.stat.rbi);
+
+  const sortedByAVG = [...splits].sort((a, b) => b.stat.avg - a.stat.avg);
+
+  const findRank = (list) =>
+    list.findIndex((p) => p.player.id === playerId) + 1;
+
+  return {
+    OPS: {
+      rank: findRank(sortedByOPS),
+      value: splits.find((p) => p.player.id === playerId)?.stat.ops || 'N/A',
+    },
+    HR: {
+      rank: findRank(sortedByHR),
+      value:
+        splits.find((p) => p.player.id === playerId)?.stat.homeRuns || 'N/A',
+    },
+    RBI: {
+      rank: findRank(sortedByRBI),
+      value: splits.find((p) => p.player.id === playerId)?.stat.rbi || 'N/A',
+    },
+
+    AVG: {
+      rank: findRank(sortedByAVG),
+      value: splits.find((p) => p.player.id === playerId)?.stat.avg || 'N/A',
+    },
+  };
 }

@@ -74,3 +74,16 @@
   text-align: center;
   border: none;
 }
+
+.game-cell-logo {
+  width: 30px;
+}
+
+.game-cell-opponent {
+  display: flex;
+  align-items: center;
+}
+
+.last3games-section tbody td {
+  padding: 2px 12px;
+}

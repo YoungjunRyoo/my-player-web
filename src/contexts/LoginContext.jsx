@@ -1,6 +1,9 @@
 import { createContext, useState, useContext, useEffect } from 'react';
-import { addFavoritePlayer } from '../services/firestore';
-import { getFavoritePlayers } from '../services/firestore';
+import {
+  addFavoritePlayer,
+  getFavoritePlayers,
+  deleteFavoritePlayer,
+} from '../services/firestore';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../services/firebase';
 
@@ -37,8 +40,13 @@ export const LoginProvider = ({ children }) => {
     return () => unsubscribe();
   }, []);
 
-  const addPlayer = (prop) => {
+  const addPlayerInFavorites = (prop) => {
     addFavoritePlayer(prop);
+    fetchFavorites();
+  };
+
+  const deletePlayerInFavorites = (id) => {
+    deleteFavoritePlayer(id);
     fetchFavorites();
   };
 
@@ -46,7 +54,8 @@ export const LoginProvider = ({ children }) => {
     <LoginContext.Provider
       value={{
         favoritePlayers,
-        addPlayer,
+        addPlayerInFavorites,
+        deletePlayerInFavorites,
       }}
     >
       {children}

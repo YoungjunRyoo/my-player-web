@@ -38,28 +38,39 @@
   cursor: pointer;
 }
 
-.team-logo-small{
+.team-logo-small {
   height: 30px;
   width: 30px;
-  
 }
 
-.follow-btn {
-  background-color:  #3d85c6;
-  width: 100px;
-  height: 35px;
-  border: none;
-  border-radius: 15px;
-  font-weight: bold;
-  font-size: 15px;
-  color: white;
-  margin-top: 10px;
+.follow {
+  margin-top: 5px;
+  width: 125px;
+  height: 33px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #3d85c6;
 }
-.follow-btn:hover {
-  background-color: #3574ac;
+
+.follow:hover {
+  background-color: #2779c1;
   cursor: pointer;
 }
 
+.following {
+  margin-top: 5px;
+  width: 125px;
+  height: 33px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+  border: 1px solid #3d85c6;
+  cursor: pointer;
+}
 
 .modal-header {
   display: flex;
@@ -69,8 +80,8 @@
 }
 
 .player-img {
-  width: 150px;
-  height: 225px;
+  width: 160px;
+  height: 235px;
   object-fit: cover;
   border-radius: 15px;
   background-color: #eee;

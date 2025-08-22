@@ -92,6 +92,9 @@ export async function getPlayerLast3PitchingGames(playerId) {
     walks: g.stat.baseOnBalls,
     runs: g.stat.runs,
     decisions: g.stat.decision,
+    baseOnBalls: g.stat.baseOnBalls,
+    numberOfPitches: g.stat.numberOfPitches,
+    era: g.stat.era,
   }));
 }
 
@@ -118,7 +121,7 @@ export async function getPlayerHittingStats(playerId) {
 
   return stats.map((s) => ({
     season: s.season,
-    teamId: s.team.id,
+    teamId: s.team?.id || null,
     gamesPlayed: s.stat.gamesPlayed,
     atBats: s.stat.atBats,
     runs: s.stat.runs,
@@ -144,7 +147,7 @@ export async function getPlayerPitchingStats(playerId) {
 
   return stats.map((s) => ({
     season: s.season,
-    teamId: s.team.id,
+    teamId: s.team?.id || null,
     wins: s.stat.wins,
     losses: s.stat.losses,
     era: s.stat.era,
@@ -155,6 +158,7 @@ export async function getPlayerPitchingStats(playerId) {
     inningsPitched: s.stat.inningsPitched,
     strikeOuts: s.stat.strikeOuts,
     whip: s.stat.whip,
+    baseOnBalls: s.stat.baseOnBalls,
   }));
 }
 
@@ -284,6 +288,50 @@ export async function getPlayerRankings(playerId) {
     AVG: {
       rank: findRank(sortedByAVG),
       value: splits.find((p) => p.player.id === playerId)?.stat.avg || 'N/A',
+    },
+  };
+}
+
+export async function getPitchingStats() {
+  const res = await fetch(
+    'https://statsapi.mlb.com/api/v1/stats?stats=season&group=pitching&gameType=R&limit=1000'
+  );
+  const data = await res.json();
+  return data.stats[0].splits; // 모든 선수 스탯
+}
+
+export async function getPitcherRankings(playerId) {
+  const splits = await getPitchingStats(); // 투수 전체 스탯 불러오기
+
+  const sortedByERA = [...splits].sort(
+    (a, b) => parseFloat(a.stat.era) - parseFloat(b.stat.era) // ERA는 낮을수록 좋음
+  );
+  const sortedByW = [...splits].sort((a, b) => b.stat.wins - a.stat.wins);
+  const sortedBySO = [...splits].sort(
+    (a, b) => b.stat.strikeOuts - a.stat.strikeOuts
+  );
+  const sortedBySV = [...splits].sort((a, b) => b.stat.saves - a.stat.saves);
+
+  const findRank = (list) =>
+    list.findIndex((p) => p.player.id === playerId) + 1;
+
+  return {
+    ERA: {
+      rank: findRank(sortedByERA),
+      value: splits.find((p) => p.player.id === playerId)?.stat.era || 'N/A',
+    },
+    W: {
+      rank: findRank(sortedByW),
+      value: splits.find((p) => p.player.id === playerId)?.stat.wins || 'N/A',
+    },
+    SO: {
+      rank: findRank(sortedBySO),
+      value:
+        splits.find((p) => p.player.id === playerId)?.stat.strikeOuts || 'N/A',
+    },
+    SV: {
+      rank: findRank(sortedBySV),
+      value: splits.find((p) => p.player.id === playerId)?.stat.saves || 'N/A',
     },
   };
 }

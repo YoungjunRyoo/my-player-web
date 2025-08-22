@@ -6,17 +6,34 @@ import {
   getPlayerLast3HittingGames,
   getPlayerPitchingStats,
   getPlayerLast3PitchingGames,
+  getPitcherRankings,
 } from '../services/mlbApi';
 import LatestGameResult from './LatestGameResult';
 import '../css/FavoritePlayer.css';
+import { useLoginContext } from '../contexts/LoginContext';
 
 function FavoritePlayer({ id }) {
   const [currentPlayer, setCurrentPlayer] = useState(null);
-  const [currentRanking, setCurrentRanking] = useState(null);
-  const [hittingStats, setHittingStats] = useState(null);
-  const [pitchingStats, setPitchingStats] = useState(null);
+  const [currentHittingRanking, setcurrentHittingRanking] = useState(null);
+  const [currentPitchingRanking, setcurrentPitchingRanking] = useState(null);
+  const [hittingStats, setHittingStats] = useState([]);
+  const [pitchingStats, setPitchingStats] = useState([]);
   const [last3Hitting, setLast3Hitting] = useState([]);
   const [last3Pitching, setLast3Pitching] = useState([]);
+  const { favoritePlayers, addPlayerInFavorites, deletePlayerInFavorites } =
+    useLoginContext();
+
+  const handleFollowClick = (e) => {
+    e.stopPropagation();
+    addPlayerInFavorites(prop);
+  };
+
+  const handleFollowingClick = (e) => {
+    e.stopPropagation();
+    deletePlayerInFavorites(id);
+  };
+
+  const isFollowing = favoritePlayers.some((p) => p.id === id);
 
   const mlbTeamAbbreviations = {
     'Arizona Diamondbacks': 'ARI',
@@ -176,30 +193,35 @@ function FavoritePlayer({ id }) {
     const fetchStats = async (player) => {
       const type = player.primaryPosition?.type;
 
-      if (type === 'Pitcher' || type === 'Two-Way Player') {
+      if (type === 'Pitcher') {
         const pitching = await getPlayerPitchingStats(id);
         const pitchingGames = await getPlayerLast3PitchingGames(id);
-        setPitchingStats(pitching);
-        setLast3Pitching(pitchingGames);
+        const response_rank_pitcher = await getPitcherRankings(id);
+
+        setcurrentPitchingRanking(response_rank_pitcher ?? {});
+        setPitchingStats(pitching ?? []);
+        setLast3Pitching(pitchingGames ?? []);
+        // console.log(pitching);
       }
 
-      if (type !== 'Pitcher' || type === 'Two-Way Player') {
+      if (type !== 'Pitcher') {
         const hitting = await getPlayerHittingStats(id);
         const hittingGames = await getPlayerLast3HittingGames(id);
-        setHittingStats(hitting);
-        setLast3Hitting(hittingGames);
+        const response_rank_hitter = await getPlayerRankings(id);
+
+        setcurrentHittingRanking(response_rank_hitter ?? {});
+        setHittingStats(hitting ?? []);
+        setLast3Hitting(hittingGames ?? []);
       }
     };
 
     const fetchPlayer = async () => {
       try {
         const response = await getPlayerById(id);
-        const response_rank = await getPlayerRankings(id);
-        const player = response.people[0];
-
+        const player = response.people?.[0] ?? null;
         setCurrentPlayer(player);
-        setCurrentRanking(response_rank);
-        await fetchStats(player);
+        console.log(player);
+        if (player) await fetchStats(player);
       } catch (error) {
         console.error('Failed to fetch player data:', error);
       }
@@ -209,25 +231,28 @@ function FavoritePlayer({ id }) {
   }, [id]);
 
   useEffect(() => {
-    console.log(currentPlayer);
-  }, [currentPlayer]);
-
-  //   useEffect(() => {
-  //     console.log(hittingStats);
-  //   }, [hittingStats]);
-
-  //   useEffect(() => {
-  //     console.log(last3Hitting);
-  //   }, [last3Hitting]);
+    console.log(currentHittingRanking);
+  }, [currentHittingRanking]);
 
   if (!currentPlayer) {
     return <div>Loading player info...</div>;
   }
 
-  const type = currentPlayer.primaryPosition?.type;
+  const type = currentPlayer.primaryPosition?.type ?? '';
   const isPitcher = type === 'Pitcher';
   const isHitter = type !== 'Pitcher';
-  const isTwoWay = type === 'Two-Way Player';
+  const teamName = currentPlayer.currentTeam?.name ?? '-';
+  const teamColor = TEAM_COLORS[teamName] ?? '#252525';
+  const recentPitching = last3Pitching?.[last3Pitching.length - 1] ?? {
+    date: '-',
+    opponent: '-',
+  };
+  const recentHitting = last3Hitting?.[last3Hitting.length - 1] ?? {
+    date: '-',
+    opponent: '-',
+  };
+  const latestPitchingStats = pitchingStats?.[pitchingStats.length - 1] ?? {};
+  const latestHittingStats = hittingStats?.[hittingStats.length - 1] ?? {};
 
   return (
     <div className="player-card">
@@ -236,143 +261,155 @@ function FavoritePlayer({ id }) {
           className="img"
           src={`https://img.mlbstatic.com/mlb-photos/image/upload/v1/people/${id}/headshot/67/current.png`}
           onError={(e) => {
-            e.target.onerror = null; // 무한 루프 방지
-            e.target.src = '../../public/images/logo.png'; // 대체 이미지 경로
+            e.target.onerror = null;
+            e.target.src = '../../public/images/logo.png';
           }}
         />
         <div className="player_name_positon_following">
-          <p className="favorite-player-name">{`${currentPlayer.fullName}`}</p>
+          <p className="favorite-player-name">
+            {currentPlayer.fullName ?? '-'}
+          </p>
           <div>
             <p className="player-position">
-              {`${
-                mlbTeamAbbreviations[currentPlayer.currentTeam.name] ||
-                currentPlayer.currentTeam.name
-              } · ${currentPlayer.primaryPosition.abbreviation} · #${
-                currentPlayer.primaryNumber
-              }`}
+              {`${mlbTeamAbbreviations[teamName] ?? teamName} · ${
+                currentPlayer.primaryPosition?.abbreviation ?? '-'
+              } · #${currentPlayer.primaryNumber ?? '-'}`}
             </p>
           </div>
-          <div className="player-following-box">
-            <p className="player-following-text">Following</p>
-          </div>
+          {isFollowing ? (
+            <div
+              className="player-following-box"
+              onClick={handleFollowingClick}
+            >
+              <p className="player-following-text">Following</p>
+            </div>
+          ) : (
+            <div className="player-follow-box" onClick={handleFollowClick}>
+              <p className="player-follow-text">Follow</p>
+            </div>
+          )}
         </div>
       </div>
       <p className="Ranking">Ranking</p>
-      <div className="Ranking-components">
-        <div
-          className="Ranking-component"
-          style={{
-            backgroundColor:
-              TEAM_COLORS[currentPlayer.currentTeam.name] || '#252525',
-          }}
-        >
-          <p className="Ranking-text">AVG</p>
-          <div className="line"></div>
-          <p className="Ranking-text">
-            {currentRanking.AVG.rank !== 0 ? currentRanking.AVG.rank : '-'}
-          </p>
-        </div>
-        <div
-          className="Ranking-component"
-          style={{
-            backgroundColor:
-              TEAM_COLORS[currentPlayer.currentTeam.name] || '#252525',
-          }}
-        >
-          <p className="Ranking-text">HR</p>
-          <div className="line"></div>
-          <p className="Ranking-text">
-            {currentRanking.HR.rank !== 0 ? currentRanking.HR.rank : '-'}
-          </p>
-        </div>
-        <div
-          className="Ranking-component"
-          style={{
-            backgroundColor:
-              TEAM_COLORS[currentPlayer.currentTeam.name] || '#252525',
-          }}
-        >
-          <p className="Ranking-text">OPS</p>
-          <div className="line"></div>
-          <p className="Ranking-text">
-            {currentRanking.OPS.rank !== 0 ? currentRanking.OPS.rank : '-'}
-          </p>
-        </div>
-        <div
-          className="Ranking-component"
-          style={{
-            backgroundColor:
-              TEAM_COLORS[currentPlayer.currentTeam.name] || '#252525',
-          }}
-        >
-          <p className="Ranking-text">RBI</p>
-          <div className="line"></div>
-          <p className="Ranking-text">
-            {currentRanking.RBI.rank !== 0 ? currentRanking.RBI.rank : '-'}
-          </p>
-        </div>
-      </div>
 
-      {/* {isPitcher && (
-        <div className="Ranking-components">
-          <div className="Ranking-component">
-            <p className="Ranking-text">ERA</p>
-            <div className="line"></div>
-            <p className="Ranking-text">
-              {currentRanking.HR.rank !== 0 ? currentRanking.HR.rank : '-'}
-            </p>
-          </div>
-          <div className="Ranking-component">
-            <p className="Ranking-text">SO</p>
-            <div className="line"></div>
-            <p className="Ranking-text">
-              {currentRanking.OPS.rank !== 0 ? currentRanking.OPS.rank : '-'}
-            </p>
-          </div>
-          <div className="Ranking-component">
-            <p className="Ranking-text">W</p>
-            <div className="line"></div>
-            <p className="Ranking-text">
-              {currentRanking.RBI.rank !== 0 ? currentRanking.RBI.rank : '-'}
-            </p>
-          </div>
-        </div>
-      )} */}
-
-      {isHitter && last3Hitting.length > 0 && (
+      {isPitcher && last3Pitching.length >= 0 && (
         <>
+          <div className="Ranking-components">
+            {['ERA', 'W', 'SO', 'SV'].map((stat) => (
+              <div
+                key={stat}
+                className="Ranking-component"
+                style={{ backgroundColor: teamColor }}
+              >
+                <p className="Ranking-text">{stat}</p>
+                <div className="line"></div>
+                <p className="Ranking-text">
+                  {currentPitchingRanking?.[stat]?.rank === 0
+                    ? 'N/A'
+                    : currentPitchingRanking?.[stat]?.rank}
+                  {currentPitchingRanking?.[stat]?.value !== 'N/A' &&
+                    ` (${currentPitchingRanking?.[stat]?.value})`}
+                </p>
+              </div>
+            ))}
+          </div>
+
           <div className="RecentGameResult">
-            <p className="Ranking">
-              {last3Hitting[last3Hitting.length - 1].date}
-            </p>
+            <p className="Ranking">{recentPitching.date}</p>
             <div className="match">
               <h4 className="versus">vs</h4>
               <img
                 className="match-logo"
                 src={`https://www.mlbstatic.com/team-logos/${
-                  TEAM_ID_MAP[last3Hitting[last3Hitting.length - 1].opponent]
+                  TEAM_ID_MAP[recentPitching.opponent] ?? 0
                 }.svg`}
-                alt={last3Hitting[last3Hitting.length - 1]?.opponent}
+                alt={recentPitching.opponent}
               />
             </div>
           </div>
 
           <LatestGameResult
-            result={last3Hitting[last3Hitting.length - 1]}
+            result={recentPitching}
+            pitcher={true}
             recent={true}
             overall={false}
-            team={currentPlayer.currentTeam.name}
+            team={teamName}
           />
 
           <div className="seasonData">
-            <p className="Ranking">
-              {`${hittingStats[hittingStats.length - 1]?.season} Season`}
-            </p>
+            <p className="Ranking">{`${
+              latestPitchingStats.season ?? '-'
+            } Season`}</p>
             <LatestGameResult
-              result={hittingStats[hittingStats.length - 1]}
+              result={latestPitchingStats}
+              pitcher={true}
               recent={false}
               overall={true}
-              team={currentPlayer.currentTeam.name}
+              team={teamName}
+            />
+          </div>
+        </>
+      )}
+
+      {isHitter && last3Hitting.length >= 0 && (
+        <>
+          <div className="Ranking-components">
+            {['AVG', 'HR', 'OPS', 'RBI'].map((stat) => (
+              <div
+                key={stat}
+                className="Ranking-component"
+                style={{ backgroundColor: teamColor }}
+              >
+                <p className="Ranking-text">{stat}</p>
+                <div className="line"></div>
+
+                <p className="Ranking-text">
+                  {currentHittingRanking?.[stat]?.rank === 0
+                    ? 'N/A'
+                    : currentHittingRanking?.[stat]?.rank}
+                  {currentHittingRanking?.[stat]?.value !== 'N/A' &&
+                    ` (${currentHittingRanking?.[stat]?.value})`}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          <div className="RecentGameResult">
+            <p className="Ranking">{recentHitting.date}</p>
+            <div className="match">
+              <h4 className="versus">vs</h4>
+              {recentHitting?.opponent !== null ? (
+                <img
+                  className="match-logo"
+                  src={`https://www.mlbstatic.com/team-logos/${
+                    TEAM_ID_MAP[recentHitting.opponent] ?? 0
+                  }.svg`}
+                  alt={recentHitting.opponent}
+                />
+              ) : (
+                <p>-</p>
+              )}
+            </div>
+          </div>
+
+          <LatestGameResult
+            result={recentHitting}
+            pitcher={false}
+            recent={true}
+            overall={false}
+            team={teamName}
+          />
+
+          <div className="seasonData">
+            <p className="Ranking">{`${
+              latestHittingStats.season ?? '-'
+            } Season`}</p>
+            <LatestGameResult
+              result={latestHittingStats}
+              pitcher={false}
+              recent={false}
+              overall={true}
+              team={teamName}
             />
           </div>
         </>

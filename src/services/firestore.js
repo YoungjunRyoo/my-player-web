@@ -1,4 +1,10 @@
-import { doc, setDoc, collection, getDocs } from 'firebase/firestore';
+import {
+  doc,
+  setDoc,
+  collection,
+  getDocs,
+  deleteDoc,
+} from 'firebase/firestore';
 import { db, auth } from './firebase';
 
 const addFavoritePlayer = async (playerData) => {
@@ -44,4 +50,17 @@ async function getFavoritePlayers() {
   }
 }
 
-export { db, addFavoritePlayer, getFavoritePlayers };
+async function deleteFavoritePlayer(id) {
+  const user = auth.currentUser;
+
+  if (user) {
+    const userId = user.uid;
+    try {
+      await deleteDoc(doc(db, 'users', userId, 'favorites', String(id)));
+    } catch (e) {
+      console.error('Error deleting document', e);
+    }
+  }
+}
+
+export { db, addFavoritePlayer, getFavoritePlayers, deleteFavoritePlayer };

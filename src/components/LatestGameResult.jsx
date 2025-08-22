@@ -1,6 +1,6 @@
 import '../css/Last3Games.css';
 
-function LatestGameResult({ result, recent, overall, team }) {
+function LatestGameResult({ result, recent, pitcher, overall, team }) {
   const TEAM_COLORS = {
     'Los Angeles Angels': 'rgba(186, 0, 33, 0.1)',
     'Arizona Diamondbacks': 'rgba(167, 25, 48, 0.1)',
@@ -36,7 +36,75 @@ function LatestGameResult({ result, recent, overall, team }) {
 
   return (
     <>
-      {recent && (
+      {pitcher && recent && (
+        <div
+          className="RecentGame"
+          style={{ backgroundColor: TEAM_COLORS[team] }}
+        >
+          <table className="RecentGame-table">
+            <thead>
+              <tr>
+                <th>IP</th>
+                <th>H</th>
+                <th>ER</th>
+                <th>BB</th>
+                <th>SO</th>
+                <th>PC</th>
+                <th>ERA</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                <tr>
+                  <td>{result.inningsPitched}</td>
+                  <td>{result.hits}</td>
+                  <td>{result.earnedRuns}</td>
+                  <td>{result.baseOnBalls}</td>
+                  <td>{result.strikeOuts}</td>
+                  <td>{result.numberOfPitches}</td>
+                  <td>{result.era}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      )}
+      {pitcher && overall && (
+        <div
+          className="RecentGame"
+          style={{ backgroundColor: TEAM_COLORS[team] }}
+        >
+          <table className="RecentGame-table">
+            <thead>
+              <tr>
+                <th>W</th>
+                <th>ERA</th>
+                <th>G</th>
+                <th>SO</th>
+                <th>BB</th>
+                <th>SV</th>
+                <th>IP</th>
+                <th>WHIP</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                <tr>
+                  <td>{result.wins}</td>
+                  <td>{result.era}</td>
+                  <td>{result.gamesPlayed}</td>
+                  <td>{result.strikeOuts}</td>
+                  <td>{result.baseOnBalls}</td>
+                  <td>{result.saves}</td>
+                  <td>{result.inningsPitched}</td>
+                  <td>{result.whip}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      )}
+      {!pitcher && recent && (
         <div
           className="RecentGame"
           style={{ backgroundColor: TEAM_COLORS[team] }}
@@ -69,7 +137,7 @@ function LatestGameResult({ result, recent, overall, team }) {
           </table>
         </div>
       )}
-      {overall && (
+      {!pitcher && overall && (
         <div
           className="RecentGame"
           style={{ backgroundColor: TEAM_COLORS[team] }}

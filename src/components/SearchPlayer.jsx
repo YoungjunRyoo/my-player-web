@@ -1,15 +1,19 @@
 import { useEffect, useState } from 'react';
 import '../css/SearchPlayer.css';
-import { addFavoritePlayer } from '../services/firestore';
 import { useLoginContext } from '../contexts/LoginContext';
 
 function SearchPlayer(prop) {
-  const { favoritePlayers, addPlayer } = useLoginContext();
+  const { favoritePlayers, addPlayerInFavorites, deletePlayerInFavorites } =
+    useLoginContext();
 
   const handleFollowClick = (e) => {
     e.stopPropagation();
-    addPlayer(prop);
-    console.log('click');
+    addPlayerInFavorites(prop);
+  };
+
+  const handleFollowingClick = (e) => {
+    e.stopPropagation();
+    deletePlayerInFavorites(prop.id);
   };
 
   const isFollowing = favoritePlayers.some((p) => p.id === prop.id);
@@ -30,14 +34,15 @@ function SearchPlayer(prop) {
 
         <p className="p-name">{prop.firstName}</p>
         <p className="p-name">{prop.lastName}</p>
-        {isFollowing? 
-        (<div className="following-box" onClick={handleFollowClick}>
-          <p className="following-text">Following</p>
-        </div>): 
-        (<div className="follow-box" onClick={handleFollowClick}>
-          <p className="follow-text">Follow</p>
-        </div>)}
-
+        {isFollowing ? (
+          <div className="following-box" onClick={handleFollowingClick}>
+            <p className="following-text">Following</p>
+          </div>
+        ) : (
+          <div className="follow-box" onClick={handleFollowClick}>
+            <p className="follow-text">Follow</p>
+          </div>
+        )}
       </div>
     </>
   );

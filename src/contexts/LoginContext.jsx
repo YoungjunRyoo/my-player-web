@@ -4,17 +4,19 @@ import {
   getFavoritePlayers,
   deleteFavoritePlayer,
 } from '../services/firestore';
-import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from '../services/firebase';
+import { onAuthStateChanged, signInWithPopup } from 'firebase/auth';
+import { auth, provider, handleSignOut } from '../services/firebase';
 
 const LoginContext = createContext();
 
 export const useLoginContext = () => useContext(LoginContext);
 
 export const LoginProvider = ({ children }) => {
+  const [currentUser, setCurrentUser] = useState(null);
   const [favoritePlayers, setFavoritePlayers] = useState([]);
 
   const fetchFavorites = async () => {
+    if (!currentUser) return;
     try {
       const players = await getFavoritePlayers();
 
@@ -28,8 +30,22 @@ export const LoginProvider = ({ children }) => {
     }
   };
 
+  const loginWithGoogle = async () => {
+    try {
+      await signInWithPopup(auth, provider);
+    } catch (e) {
+      console.error('Google login error:', e);
+    }
+  };
+
+  const logout = async () => {
+    const result = await handleSignOut();
+    if (result) setFavoritePlayers([]);
+  };
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setCurrentUser(user);
       if (user) {
         fetchFavorites();
       } else {
@@ -53,7 +69,10 @@ export const LoginProvider = ({ children }) => {
   return (
     <LoginContext.Provider
       value={{
+        currentUser,
         favoritePlayers,
+        loginWithGoogle,
+        logout,
         addPlayerInFavorites,
         deletePlayerInFavorites,
       }}

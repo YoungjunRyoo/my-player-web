@@ -23,9 +23,9 @@
   /* font-weight: 400; */
 }
 
-.player-name:hover,
-.team-abbr:hover {
-  color: blue; /* Use any color you prefer */
+.player-name_w:hover,
+.team-abbr_w:hover {
+  color: #3c8bad; /* Use any color you prefer */
   cursor: pointer;
 }
 

@@ -4,22 +4,12 @@ import { FaRegUserCircle } from 'react-icons/fa';
 import { useState, useEffect } from 'react';
 import Login from './LogIn.jsx';
 import { useLoginContext } from '../contexts/LoginContext.jsx';
-import { handleSignOut } from '../services/firebase.js';
-import { auth } from '../services/firebase.js';
-import { onAuthStateChanged } from 'firebase/auth';
 
 function NavBar() {
   const [isModalOpen, setisModalOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [user, setUser] = useState(null);
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-    });
-
-    return () => unsubscribe(); // Clean up
-  }, []);
+  const { currentUser, logout } = useLoginContext();
 
   const clickSignIn = () => {
     setisModalOpen(true);
@@ -34,7 +24,7 @@ function NavBar() {
   };
 
   const handleLogout = async () => {
-    await handleSignOut();
+    await logout();
     setIsMenuOpen(false);
   };
 
@@ -49,7 +39,7 @@ function NavBar() {
             <Link to="/" className="link">
               Home
             </Link>
-            {user ? (
+            {currentUser ? (
               <Link to="/favorites" className="link">
                 Favorites
               </Link>
@@ -61,19 +51,19 @@ function NavBar() {
           </div>
         </div>
         <div className="profile">
-          {!user && (
+          {!currentUser && (
             <p className="link" onClick={() => clickSignIn()}>
               Sign In
             </p>
           )}
 
-          {user && (
+          {currentUser && (
             <div className="profile">
               <FaRegUserCircle className="user-icon" onClick={toggleUserMenu} />
             </div>
           )}
 
-          {user && isMenuOpen && (
+          {currentUser && isMenuOpen && (
             <div className="user-dropdown-menu">
               <p>Account Settings</p>
               <p onClick={handleLogout}>Log out</p>

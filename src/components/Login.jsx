@@ -1,12 +1,19 @@
 import { useState, useEffect } from 'react';
 import '../css/Login.css';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../services/firebase.js';
+import { useLoginContext } from '../contexts/LoginContext.jsx';
 
 function Login({ close }) {
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
+
+  const { loginWithGoogle, currentUser } = useLoginContext();
+
+  useEffect(() => {
+    if (currentUser) close();
+  }, [currentUser, close]);
 
   useEffect(() => {
     if (errorMsg) {
@@ -46,7 +53,7 @@ function Login({ close }) {
           </button>
           <h1 className="Login-header">Login</h1>
 
-          <form className="Login-div">
+          <form className="Login-div" onSubmit={clickButton}>
             <input
               type="text"
               placeholder="Username"
@@ -64,9 +71,22 @@ function Login({ close }) {
             </button>
           </form>
 
-          <div className="forgetPassword">
-            <h5>Forget Password?</h5>
+          <div className="Login-divider">
+            <span>OR</span>
           </div>
+
+          <button
+            type="button"
+            className="Login-google-button"
+            onClick={loginWithGoogle}
+          >
+            <img src="/src/assets/googleLogo.png" className="googleLogo" />
+            Sign In With Google
+          </button>
+
+          {/* <div className="forgetPassword">
+            <h5>Forget Password?</h5>
+          </div> */}
         </div>
       </div>
     </>

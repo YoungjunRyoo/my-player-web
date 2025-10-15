@@ -23,9 +23,13 @@
   /* font-weight: 400; */
 }
 
-.player-name:hover,
-.team-abbr:hover {
-  color: blue; /* Use any color you prefer */
+.player-name_hr:hover {
+  color: #3c8bad;
+  cursor: pointer;
+}
+
+.team-abbr_hr:hover {
+  color: #3c8bad;
   cursor: pointer;
 }
 

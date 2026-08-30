@@ -64,15 +64,15 @@ MyPlayer is a React-based MLB analytics and player-tracking web application that
 ## Screenshots
 
 ### Dashboard
-![MyPlayer Dashboard] <img width="1710" height="1074" alt="Screenshot 2026-08-30 at 12 47 04 PM" src="https://github.com/user-attachments/assets/bcc70e87-b033-4bd1-879e-f5bb76867817" />
+[MyPlayer Dashboard] <img width="1710" height="1074" alt="Screenshot 2026-08-30 at 12 47 04 PM" src="https://github.com/user-attachments/assets/bcc70e87-b033-4bd1-879e-f5bb76867817" />
 
 
 ### Player Details
-![Player Details] <img width="1705" height="1073" alt="Screenshot 2026-08-30 at 12 49 30 PM" src="https://github.com/user-attachments/assets/73c9a852-cc8f-4f68-852c-d013761918a1" />
+[Player Details] <img width="1705" height="1073" alt="Screenshot 2026-08-30 at 12 49 30 PM" src="https://github.com/user-attachments/assets/73c9a852-cc8f-4f68-852c-d013761918a1" />
 
 
 ### Favorites
-![Favorites] <img width="1710" height="1071" alt="Screenshot 2026-08-30 at 12 49 49 PM" src="https://github.com/user-attachments/assets/8d8d69d5-b983-427a-af14-d8e3c82be022" />
+[Favorites] <img width="1710" height="1071" alt="Screenshot 2026-08-30 at 12 49 49 PM" src="https://github.com/user-attachments/assets/8d8d69d5-b983-427a-af14-d8e3c82be022" />
 
 
 ## Running Locally
@@ -82,3 +82,11 @@ MyPlayer is a React-based MLB analytics and player-tracking web application that
 ```bash
 git clone https://github.com/YoungjunRyoo/my-player-web.git
 cd my-player-web
+
+### 2. Install dependencies
+npm install
+
+###3. Start the development server
+npm run dev
+
+

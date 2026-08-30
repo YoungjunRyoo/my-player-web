@@ -77,9 +77,10 @@ MyPlayer is a React-based MLB analytics and player-tracking web application that
 
 ## Running Locally
 
-### 1. Clone the repository
+
 
 ```bash
+### 1. Clone the repository
 git clone https://github.com/YoungjunRyoo/my-player-web.git
 cd my-player-web
 

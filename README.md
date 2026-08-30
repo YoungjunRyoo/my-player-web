@@ -2,7 +2,7 @@
 
 MyPlayer is a React-based MLB analytics and player-tracking web application that allows users to explore MLB games, standings, player statistics, league leaders, and news while following their favorite players through personalized accounts.
 
-**Live Website:** [View MyPlayer]([https://your-website-url.com](https://staging.d25rr9q5twxsbp.amplifyapp.com/))
+**Live Website:** [View MyPlayer](https://staging.d25rr9q5twxsbp.amplifyapp.com/)
 
 
 ## Features
@@ -64,30 +64,37 @@ MyPlayer is a React-based MLB analytics and player-tracking web application that
 ## Screenshots
 
 ### Dashboard
-[MyPlayer Dashboard] <img width="1710" height="1074" alt="Screenshot 2026-08-30 at 12 47 04 PM" src="https://github.com/user-attachments/assets/bcc70e87-b033-4bd1-879e-f5bb76867817" />
+<img width="1710" height="1074" alt="Screenshot 2026-08-30 at 12 47 04 PM" src="https://github.com/user-attachments/assets/bcc70e87-b033-4bd1-879e-f5bb76867817" />
 
 
 ### Player Details
-[Player Details] <img width="1705" height="1073" alt="Screenshot 2026-08-30 at 12 49 30 PM" src="https://github.com/user-attachments/assets/73c9a852-cc8f-4f68-852c-d013761918a1" />
+<img width="1705" height="1073" alt="Screenshot 2026-08-30 at 12 49 30 PM" src="https://github.com/user-attachments/assets/73c9a852-cc8f-4f68-852c-d013761918a1" />
 
 
 ### Favorites
-[Favorites] <img width="1710" height="1071" alt="Screenshot 2026-08-30 at 12 49 49 PM" src="https://github.com/user-attachments/assets/8d8d69d5-b983-427a-af14-d8e3c82be022" />
+<img width="1710" height="1071" alt="Screenshot 2026-08-30 at 12 49 49 PM" src="https://github.com/user-attachments/assets/8d8d69d5-b983-427a-af14-d8e3c82be022" />
 
 
 ## Running Locally
 
-
+1. Clone the repository:
 
 ```bash
-### 1. Clone the repository
 git clone https://github.com/YoungjunRyoo/my-player-web.git
 cd my-player-web
+```
 
-### 2. Install dependencies
+2. Install dependencies:
+
+```bash
 npm install
+```
 
-###3. Start the development server
+3. Start the development server:
+
+```bash
 npm run dev
+```
+
 
 
